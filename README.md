@@ -1,7 +1,7 @@
-dokku-bower-install
+dokku-jspm-install
 ===================
 
-Dokku pluging to install bower dependecies.
+Dokku pluging to install jspm dependecies.
 
 *NOTE*: it's developed and tested on the latest `progrium/buildstep` which uses the latest `heroku-buildpack-nodejs`.
 
@@ -13,13 +13,13 @@ $ docker build -t progrium/buildstep github.com/progrium/buildstep
 
 ## Description
 
-This plugin will inject the `/app/.bower` shell script that's going to be executed on the `pre-deploy` stage. If the root of the application contains a `bower.json` file, then bower and all dependencies are installed.
+This plugin will inject the `/app/.jspm` shell script that's going to be executed on the `pre-deploy` stage. If the specified directory contains a `package.json` file, then jspm and all dependencies are installed.
 
 ## Usage
 
 ```
 cd /var/lib/dokku/plugins
-git clone https://github.com/alexanderbeletsky/dokku-bower-install
+git clone https://github.com/atsyongki/dokku-jspm-install
 dokku plugins-install
 ```
 

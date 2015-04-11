@@ -2,20 +2,20 @@
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 APP="$1";  IMAGE="dokku/$APP"
 
-BOWERSCRIPT="
+JSPMSCRIPT="
 #!/bin/bash
 
-cd /app
+cd /app/client
 PATH=\$PATH:/app/vendor/node/bin
-if [[ -f ./bower.json ]]; then
-	npm install -g bower && bower install --allow-root
+if [[ -f ./package.json ]]; then
+	npm install -g jspm && jspm install -y
 fi
 "
 
-echo '-----> Injecting bower script'
-id=$(echo "$BOWERSCRIPT" | docker run -i -a stdin $IMAGE /bin/bash -c "cat > /app/.bower")
+echo '-----> Injecting jspm script'
+id=$(echo "$JSPMSCRIPT" | docker run -i -a stdin $IMAGE /bin/bash -c "cat > /app/.jspm")
 test $(docker wait $id) -eq 0
 docker commit $id $IMAGE > /dev/null
-id=$(docker run -d $IMAGE /bin/bash -c "chmod +x /app/.bower")
+id=$(docker run -d $IMAGE /bin/bash -c "chmod +x /app/.jspm")
 test $(docker wait $id) -eq 0
 docker commit $id $IMAGE > /dev/null
