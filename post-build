@@ -8,7 +8,7 @@ JSPMSCRIPT="
 cd /app/client
 PATH=\$PATH:/app/vendor/node/bin
 if [[ -f ./package.json ]]; then
-	npm install -g jspm && jspm install -y
+	npm install -g jspm && ./jspmRegistry.sh && jspm install -y
 fi
 "
 
