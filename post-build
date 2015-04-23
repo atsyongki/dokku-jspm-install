@@ -8,7 +8,7 @@ JSPMSCRIPT="
 cd /app/client
 PATH=\$PATH:/app/vendor/node/bin
 if [[ -f ./package.json ]]; then
-	npm install -g jspm && ./jspmRegistry.sh && jspm install -y
+	npm install -g jspm && ./jspmRegistry.sh && jspm install -y && jspm bundle aurelia-bootstrapper + aurelia-http-client + aurelia-dependency-injection + aurelia-router dist/app-bundle.js --inject --minify --skip-source-maps
 fi
 "
 
