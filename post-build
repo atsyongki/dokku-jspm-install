@@ -8,14 +8,24 @@ JSPMSCRIPT="
 cd /app/client
 PATH=\$PATH:/app/vendor/node/bin
 if [[ -f ./package.json ]]; then
-	npm install -g jspm && ./jspmRegistry.sh && jspm install -y && jspm bundle aurelia-bootstrapper + aurelia-http-client + aurelia-dependency-injection + aurelia-router dist/app-bundle.js --inject --minify --skip-source-maps
+	npm install -g gulp &&
+    npm install &&
+	npm install -g jspm && 
+	echo "Jspm install START" &&
+	./jspmRegistry.sh && jspm install -y && 
+	jspm bundle aurelia-bootstrapper + aurelia-http-client + aurelia-dependency-injection + aurelia-router dist/app-bundle.js --inject --minify --skip-source-maps &&
+	echo "Jspm install END" &&
+	echo "Gulp Build START" &&
+	gulp build &&
+	echo "Gulp Build END"
 fi
 "
 
-echo '-----> Injecting jspm script'
+echo '-----> Injecting jspm script START'
 id=$(echo "$JSPMSCRIPT" | docker run -i -a stdin $IMAGE /bin/bash -c "cat > /app/.jspm")
 test $(docker wait $id) -eq 0
 docker commit $id $IMAGE > /dev/null
 id=$(docker run -d $IMAGE /bin/bash -c "chmod +x /app/.jspm")
 test $(docker wait $id) -eq 0
 docker commit $id $IMAGE > /dev/null
+echo '-----> Injecting jspm script END'

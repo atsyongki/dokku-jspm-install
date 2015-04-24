@@ -2,7 +2,7 @@
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 APP="$1";  IMAGE="dokku/$APP"
 
-echo '-----> Running jspm script'
+echo '-----> Running jspm pre-deploy script'
 id=$(docker run -d $IMAGE /bin/bash -c "/app/.jspm")
 docker attach $id
 test $(docker wait $id) -eq 0
